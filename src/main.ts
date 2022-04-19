@@ -2,9 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { OpenApiNestFactory } from 'nest-openapi-tools';
 import { AppModule } from './app.module';
+import otelSDK from './tracing';
 
 async function bootstrap() {
+  await otelSDK.start();
   const app = await NestFactory.create(AppModule);
+
   const config = new DocumentBuilder()
     .setTitle('Reporting API')
     .setDescription('Pass a JSON to POST request to build an Excel workbook')

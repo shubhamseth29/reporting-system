@@ -24,6 +24,11 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.28.0",
+    "@opentelemetry/exporter-jaeger": "^1.0.1",
+    "@opentelemetry/exporter-prometheus": "^0.27.0",
+    "@opentelemetry/sdk-node": "^0.27.0",
+    "nestjs-otel": "^3.0.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"

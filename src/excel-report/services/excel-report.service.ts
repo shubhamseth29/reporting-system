@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { OtelMethodCounter, Span, TraceService } from 'nestjs-otel';
 import * as XLSX from 'xlsx';
 import { ReportDto } from '../../dto/report';
+
 @Injectable()
 export class ExcelReportService {
+  constructor(private readonly traceService: TraceService) {}
+
+  @Span('convert jsonToExcel')
+  @OtelMethodCounter()
   convertJsonToExcel(reportData: ReportDto) {
     let data = [];
 
@@ -26,6 +32,8 @@ export class ExcelReportService {
     XLSX.writeFile(workBook, 'reportData.xlsx');
   }
 
+  @Span('convert ExcelToJson')
+  @OtelMethodCounter()
   convertExcelToJson(fileName: string) {
     const fileNameWithExtension = fileName + '.xlsx';
     const excelJson = XLSX.readFile(fileNameWithExtension);
