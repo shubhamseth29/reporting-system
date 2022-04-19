@@ -1,15 +1,21 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { OtelMethodCounter, Span, TraceService } from 'nestjs-otel';
+import { AxiosResponse } from 'axios';
+import { OtelMethodCounter, Span } from 'nestjs-otel';
+import { map, Observable } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { ReportDto } from '../../dto/report';
 
 @Injectable()
 export class ExcelReportService {
-  constructor(private readonly traceService: TraceService) {}
+  constructor(
+    // private readonly traceService: TraceService,
+    private httpService: HttpService,
+  ) {}
 
   @Span('convert jsonToExcel')
   @OtelMethodCounter()
-  convertJsonToExcel(reportData: ReportDto) {
+  convertJsonToExcel(reportData: ReportDto): Observable<AxiosResponse<any>> {
     let data = [];
 
     if (Array.isArray(reportData)) {
@@ -30,6 +36,10 @@ export class ExcelReportService {
     // console.log(workBook);
 
     XLSX.writeFile(workBook, 'reportData.xlsx');
+
+    return this.httpService
+      .get('http://localhost:3000/excel-report/reportData')
+      .pipe(map((response) => response.data));
   }
 
   @Span('convert ExcelToJson')

@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { OpenTelemetryModule } from 'nestjs-otel';
 import { AppController } from './app.controller';
@@ -14,7 +15,7 @@ const OpenTelemetryModuleConfig = OpenTelemetryModule.forRoot({
   },
 });
 @Module({
-  imports: [OpenTelemetryModuleConfig, ExcelReportModule],
+  imports: [OpenTelemetryModuleConfig, ExcelReportModule, HttpModule],
   controllers: [AppController],
   providers: [AppService],
 })
