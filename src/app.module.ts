@@ -15,8 +15,22 @@ const OpenTelemetryModuleConfig = OpenTelemetryModule.forRoot({
   },
 });
 @Module({
-  imports: [OpenTelemetryModuleConfig, ExcelReportModule, HttpModule],
+  imports: [
+    OpenTelemetryModuleConfig,
+    ExcelReportModule,
+    HttpModule,
+    // ThrottlerModule.forRoot({
+    //   ttl: 5000,
+    //   limit: 5000,
+    // }),
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: ThrottlerGuard,
+    // },
+  ],
 })
 export class AppModule {}

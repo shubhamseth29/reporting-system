@@ -25,6 +25,7 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/throttler": "^2.0.1",
     "@opentelemetry/auto-instrumentations-node": "^0.28.0",
     "@opentelemetry/exporter-jaeger": "^1.0.1",
     "@opentelemetry/exporter-prometheus": "^0.27.0",
