@@ -1,12 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { OpenApiNestFactory } from 'nest-openapi-tools';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AppModule } from './app.module';
 import otelSDK from './tracing';
 
 async function bootstrap() {
   await otelSDK.start();
   const app = await NestFactory.create(AppModule);
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+
+  for (const func in console) {
+    console[func] = function () {};
+  }
 
   const config = new DocumentBuilder()
     .setTitle('Reporting API')

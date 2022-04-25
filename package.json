@@ -31,10 +31,13 @@
     "@opentelemetry/exporter-prometheus": "^0.27.0",
     "@opentelemetry/sdk-node": "^0.27.0",
     "axios": "^0.26.1",
+    "nest-winston": "^1.6.2",
     "nestjs-otel": "^3.0.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "winston": "^3.7.2",
+    "winston-daily-rotate-file": "^4.6.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

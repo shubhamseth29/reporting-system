@@ -8,9 +8,7 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    console.log('Should log active span');
     const span = trace.getSpan(context.active());
-    console.dir(span);
     span?.end();
     return this.appService.getHello();
   }

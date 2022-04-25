@@ -3,15 +3,20 @@ import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { OtelMethodCounter, Span } from 'nestjs-otel';
 import { map, Observable } from 'rxjs';
+import { ImplementLogger } from 'src/common/decorators/logger.decorator';
 import * as XLSX from 'xlsx';
+import { LoggerClass } from '../../common/classes/Logger';
 import { ReportDto } from '../../dto/report';
 
 @Injectable()
-export class ExcelReportService {
+@ImplementLogger
+export class ExcelReportService extends LoggerClass {
   constructor(
     // private readonly traceService: TraceService,
     private httpService: HttpService,
-  ) {}
+  ) {
+    super();
+  }
 
   @Span('convert jsonToExcel')
   @OtelMethodCounter()
@@ -25,7 +30,7 @@ export class ExcelReportService {
     }
     const workSheet = XLSX.utils.json_to_sheet(data);
     const workBook = XLSX.utils.book_new();
-
+    this.logger.debug('workbook created');
     XLSX.utils.book_append_sheet(workBook, workSheet, 'report');
     // Generate buffer
     XLSX.write(workBook, { bookType: 'xlsx', type: 'buffer' });
@@ -33,9 +38,9 @@ export class ExcelReportService {
     // Binary string
     XLSX.write(workBook, { bookType: 'xlsx', type: 'binary' });
 
-    // console.log(workBook);
-
     XLSX.writeFile(workBook, 'reportData.xlsx');
+
+    this.logger.log('convert JSON to excel called');
 
     return this.httpService
       .get('http://localhost:3000/excel-report/reportData')
@@ -62,13 +67,9 @@ export class ExcelReportService {
       excelObject.accountId = excelJson.Sheets[sheetName][b]['v'];
       excelObject.region = excelJson.Sheets[sheetName][c]['v'];
       finalData.push(excelObject);
+      this.logger.log(excelObject);
     }
 
     return finalData;
-    // return [
-    //   {
-    //     abcd: '2',
-    //   },
-    // ];
   }
 }
