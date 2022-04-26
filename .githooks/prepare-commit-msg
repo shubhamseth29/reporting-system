@@ -1,0 +1,35 @@
+#!C:/Program\ Files/nodejs/node
+const readFileSync = require('fs').readFileSync;
+const writeFileSync = require('fs').writeFileSync;
+
+/**
+ * Standard erroring function.
+ * @param message Error message displayed in logs
+ */
+function errorOut(message) {
+	console.error(`${message}`);
+	process.exit(1);
+}
+
+/**
+ * Prepare commit message
+ */
+function prepareCommitMessage() {
+	let commitMessage = readFileSync(process.argv[2], 'utf8');
+
+	// 1. Trimming extra spaces from commit message
+	commitMessage = commitMessage.trim();
+
+	// 2. Adding copyright
+	//     commitMessage = commitMessage.concat(`
+	// © Centilytics ${new Date().getFullYear()}
+	//     `);
+
+	// Writing contents to file
+	writeFileSync(process.argv[2], commitMessage);
+}
+
+// Preparing commit message
+prepareCommitMessage();
+
+process.exit(0);

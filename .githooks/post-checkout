@@ -1,0 +1,88 @@
+#!C:/Program\ Files/nodejs/node
+const execSync = require('child_process').execSync;
+
+const FEATURE_PREFIX = 'feature';
+const SNIPPET_PREFIX = 'snippet';
+const BUGFIX_PREFIX = 'bugfix';
+const HOTFIX_PREFIX = 'hotfix';
+
+const FEATURE_BRANCH_PATTERN = `${FEATURE_PREFIX}/<Task-Number>/<Feature-Name>`;
+const SNIPPET_BRANCH_PATTERN = `${SNIPPET_PREFIX}/<Task-Number>/<Developer-Name>/<Task-Name>`;
+const BUGFIX_BRANCH_PATTERN = `${BUGFIX_PREFIX}/<Ticket-no>/<name>`;
+const HOTFIX_BRANCH_PATTERN = `${HOTFIX_PREFIX}/<Ticket-no>/<name>`;
+
+const SUPPORTED_BRANCHES_FORMAT = `
+Supported formats:
+    ${FEATURE_BRANCH_PATTERN}
+    ${SNIPPET_BRANCH_PATTERN}
+    ${BUGFIX_BRANCH_PATTERN}
+    ${HOTFIX_BRANCH_PATTERN}
+`;
+
+/**
+ * Standard erroring function.
+ * @param message Error message displayed in logs
+ */
+function errorOut(message) {
+	console.error(
+		`${message}
+        `
+	);
+	process.exit(1);
+}
+
+/**
+ * Verifying branch naming convention
+ */
+function checkBranchName() {
+	const branchName = execSync('git rev-parse --abbrev-ref HEAD')
+		.toString()
+		.trim();
+
+	if (branchName.indexOf(FEATURE_PREFIX) === 0) {
+		// Feature Branch
+		if (branchName.split('/').length !== 3) {
+			handleInvalidBranchCheckout(branchName);
+		}
+	} else if (branchName.indexOf(SNIPPET_PREFIX) === 0) {
+		// Snippet Branch
+		if (branchName.split('/').length !== 4) {
+			handleInvalidBranchCheckout(branchName);
+		}
+	} else if (branchName.indexOf(BUGFIX_PREFIX) === 0) {
+		// Bugfix Branch
+		if (branchName.split('/').length !== 3) {
+			handleInvalidBranchCheckout(branchName);
+		}
+	} else if (branchName.indexOf(HOTFIX_PREFIX) === 0) {
+		// Hotfix Branch
+		if (branchName.split('/').length !== 3) {
+			handleInvalidBranchCheckout(branchName);
+		}
+	} else if (
+		branchName !== 'master' &&
+		branchName !== 'staging' &&
+		branchName !== 'development'
+	) {
+		handleInvalidBranchCheckout(branchName);
+	}
+}
+
+function handleInvalidBranchCheckout(invalidBranchName) {
+	// 1. Switch to master branch
+	execSync('git checkout master');
+
+	// 2. Delete invalid local branch
+	execSync(`git branch -D ${invalidBranchName}`);
+
+	// 3. Delete invalid branch on remote
+	// execSync(`git push origin --delete ${invalidBranchName}`);
+
+	errorOut(
+		`Branch naming convention was not proper. Branch will be deleted from local.${SUPPORTED_BRANCHES_FORMAT}`
+	);
+}
+
+// 1. Checking branch name
+checkBranchName();
+process.exit(0);

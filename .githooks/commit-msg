@@ -1,0 +1,71 @@
+#!C:/Program\ Files/nodejs/node
+const readFileSync = require('fs').readFileSync;
+
+/**
+ * Standard erroring function.
+ * @param message Error message displayed in logs
+ */
+function errorOut(message) {
+	console.error(`${message}`);
+	process.exit(1);
+}
+
+/**
+ * Verify commit message
+ */
+function checkCommitMessage() {
+	const commitMessage = readFileSync(process.argv[2], 'utf8');
+	const commitMessageFormatAndRules = `
+    Format:
+    SUBJECT: This is the subject
+    MESSAGE: This is the message.
+
+    Rules for commit message:
+    1. It must contain SUBJECT and MESSAGE.
+    2. SUBJECT and MESSAGE must be all caps.
+    3. SUBJECT should not contain period(.) and can't be more that 50 characters.
+    4. There must be space after (:) of both SUBJECT and MESSAGE.
+    5. MESSAGE has to de descriptive and more than 5 words at least. Message can be formatted in paragraphs.
+    `;
+	const messageSplit = commitMessage.split('\n');
+
+	if (commitMessage.trim()) {
+		if (
+			!(
+				commitMessage.includes('SUBJECT: ') ||
+				commitMessage.includes('MESSAGE: ')
+			)
+		) {
+			errorOut(`Invalid commit message.${commitMessageFormatAndRules}
+            `);
+		} else if (
+			!(
+				messageSplit.length > 0 &&
+				messageSplit[1] &&
+				messageSplit[1].includes('MESSAGE: ')
+			)
+		) {
+			errorOut(`Invalid commit message.${commitMessageFormatAndRules}
+            `);
+		}
+		const subject = messageSplit[0].substr(8).trim();
+		console.log('===SUBJECT===\n' + subject);
+		if (subject && subject.length > 50) {
+			errorOut(`Invalid commit message. SUBJECT should not be more that 50 characters.${commitMessageFormatAndRules}
+            `);
+		}
+
+		const message = messageSplit.slice(1).join('\n').substr(8).trim();
+		if (message && message.split(' ').length < 5) {
+			errorOut(`Invalid commit message. MESSAGE should be more descriptive and more than atleast 8 words.${commitMessageFormatAndRules}
+            `);
+		}
+	} else {
+		errorOut(`Invalid commit message.${commitMessageFormatAndRules}
+            `);
+	}
+}
+
+// 1. Check commit message
+checkCommitMessage();
+process.exit(0);

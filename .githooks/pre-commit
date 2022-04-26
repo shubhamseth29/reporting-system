@@ -1,0 +1,48 @@
+#!C:/Program\ Files/nodejs/node
+const execSync = require('child_process').execSync;
+
+/**
+ * Standard erroring function.
+ * @param message Error message displayed in logs
+ */
+function errorOut(message) {
+	console.error(
+		`${message}
+        `
+	);
+	process.exit(1);
+}
+
+/**
+ * Verify the user's name and email
+ */
+function checkCommiter() {
+	const username = execSync('git config user.name').toString().trim();
+	// Validating username
+	if (!(username && username.split(' ').length > 1)) {
+		// Invalid username
+		errorOut(`
+        Invalid username.
+        Username must contain both first and last name.
+        Set username using command:
+        git config --global user.name "FIRST_NAME LAST_NAME"
+        `);
+	}
+
+	const email = execSync('git config user.email').toString().trim();
+	// Validating email
+	if (!(email && email.includes('@centilytics.com'))) {
+		// Invalid email
+		errorOut(`
+        Invalid email.
+        Email must be of centilytics domain
+        Set email using command:
+        git config --global user.email "MY_NAME@centilytics.com"
+        `);
+	}
+}
+
+// 1. Check the commiter
+checkCommiter();
+
+process.exit(0);

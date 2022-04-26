@@ -1,0 +1,91 @@
+#!C:/Program\ Files/nodejs/node
+const execSync = require('child_process').execSync;
+const readFileSync = require('fs').readFileSync;
+
+const FEATURE_PREFIX = 'feature';
+const SNIPPET_PREFIX = 'snippet';
+const BUGFIX_PREFIX = 'bugfix';
+const HOTFIX_PREFIX = 'hotfix';
+
+const FEATURE_BRANCH_PATTERN = `${FEATURE_PREFIX}/<Task-Number>/<Feature-Name>`;
+const SNIPPET_BRANCH_PATTERN = `${SNIPPET_PREFIX}/<Task-Number>/<Developer-Name>/<Task-Name>`;
+const BUGFIX_BRANCH_PATTERN = `${BUGFIX_PREFIX}/<Ticket-no>/<name>`;
+const HOTFIX_BRANCH_PATTERN = `${HOTFIX_PREFIX}/<Ticket-no>/<name>`;
+
+const SUPPORTED_BRANCHES_FORMAT = `
+Supported formats:
+    ${FEATURE_BRANCH_PATTERN}
+    ${SNIPPET_BRANCH_PATTERN}
+    ${BUGFIX_BRANCH_PATTERN}
+    ${HOTFIX_BRANCH_PATTERN}
+`;
+
+/**
+ * Standard erroring function.
+ * @param message Error message displayed in logs
+ */
+function errorOut(message) {
+	console.error(
+		`${message}
+        `
+	);
+	process.exit(1);
+}
+
+/**
+ * Verifying branch naming convention
+ */
+function checkBranchName() {
+	const branchName = execSync('git rev-parse --abbrev-ref HEAD')
+		.toString()
+		.trim();
+
+	if (branchName.indexOf(FEATURE_PREFIX) === 0) {
+		// Feature Branch
+		if (branchName.split('/').length !== 3) {
+			errorOut(`Feature branch format is not proper.
+                ${SUPPORTED_BRANCHES_FORMAT}
+        `);
+		}
+	} else if (branchName.indexOf(SNIPPET_PREFIX) === 0) {
+		// Snippet Branch
+		if (branchName.split('/').length !== 4) {
+			errorOut(`Snippet branch format is not proper.
+                ${SUPPORTED_BRANCHES_FORMAT}
+        `);
+		}
+	} else if (branchName.indexOf(BUGFIX_PREFIX) === 0) {
+		// Bugfix Branch
+		if (branchName.split('/').length !== 3) {
+			errorOut(`Bugfix branch format is not proper.
+                ${SUPPORTED_BRANCHES_FORMAT}
+        `);
+		}
+	} else if (branchName.indexOf(HOTFIX_PREFIX) === 0) {
+		// Hotfix Branch
+		if (branchName.split('/').length !== 3) {
+			errorOut(`Hotfix branch format is not proper.
+                ${SUPPORTED_BRANCHES_FORMAT}
+        `);
+		}
+	} else {
+		const commandInput = readFileSync(0, 'utf-8').trim();
+		if (
+			commandInput.includes('(delete)') &&
+			!commandInput.includes('/master') &&
+			!commandInput.includes('/staging') &&
+			!commandInput.includes('/development')
+		) {
+			// Bypass branch deletion if not master, staging or development
+			process.exit(0);
+		}
+
+		errorOut(`Branch type not supported.
+                ${SUPPORTED_BRANCHES_FORMAT}
+        `);
+	}
+}
+
+// 1. Checking branch name
+checkBranchName();
+process.exit(0);
