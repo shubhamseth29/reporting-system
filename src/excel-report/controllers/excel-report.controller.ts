@@ -20,7 +20,7 @@ export class ExcelReportController extends LoggerClass {
   convertJsonToExcel(@Body() data: ReportDto) {
     const asyncData = this.excelReportService.convertJsonToExcel(data);
     const span = trace.getSpan(context.active());
-    this.logger.log('yeaahh printed');
+    this.logger.log('Post API logged');
     span?.end();
     return asyncData;
   }
@@ -29,7 +29,7 @@ export class ExcelReportController extends LoggerClass {
   @Get(':fileName')
   convertExcelToJson(@Param('fileName') fileName: string) {
     const span = trace.getSpan(context.active());
-    this.logger.warn('bro No wait');
+    this.logger.warn('Warn statement logged');
     span?.end();
     return this.excelReportService.convertExcelToJson(fileName);
   }
