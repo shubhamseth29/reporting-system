@@ -1,0 +1,22 @@
+{
+    "recommendations": [
+        "christian-kohler.npm-intellisense",
+        "christian-kohler.path-intellisense",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "EditorConfig.EditorConfig",
+        "eg2.vscode-npm-script",
+        "esbenp.prettier-vscode",
+        "formulahendry.auto-rename-tag",
+        "johnpapa.vscode-peacock",
+        "naumovs.color-highlight",
+        "quicktype.quicktype",
+        "ritwickdey.LiveServer",
+        "SirTori.indenticator",
+        "steoates.autoimport",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "vscode-icons-team.vscode-icons",
+        "wayou.vscode-todo-highlight",
+        "alexr00.formatallfilesinworkspace"
+    ]
+}

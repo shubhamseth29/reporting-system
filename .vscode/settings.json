@@ -1,3 +1,61 @@
 {
-    "makefile.extensionOutputFolder": "./.vscode"
+    "editor.fontSize": 18,
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": true,
+    "terminal.integrated.fontSize": 18,
+    "prettier.jsxSingleQuote": true,
+    "vsicons.dontShowNewVersionMessage": true,
+    "git.autofetch": true,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "material-icon-theme.folders.theme": "classic",
+    "explorer.confirmDelete": false,
+    "editor.maxTokenizationLineLength": 99999999,
+    "editor.largeFileOptimizations": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports": true
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "sass.disableAutoIndent": false,
+    "formatall.search.include": "**/*.{ts}",
+    "formatall.quantity": 50,
+    "explorer.confirmDragAndDrop": false,
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "workbench.startupEditor": "welcomePage",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "window.zoomLevel": -1,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "editor.formatOnSave": true,
+    "eslint.validate": [
+        "typescript"
+    ],
+    "formatAll.includeFileExtensions": [
+        ".ts",
+        ".json"
+    ],
+    "editor.linkedEditing": true
 }
