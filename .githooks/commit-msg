@@ -1,6 +1,8 @@
 #!C:/Program\ Files/nodejs/node
 const readFileSync = require('fs').readFileSync;
 
+// Run this command in terminal if not already if your hooks are places in .githooks file
+// git config core.hooksPath .githooks
 /**
  * Standard erroring function.
  * @param message Error message displayed in logs

@@ -2,6 +2,9 @@
 const execSync = require('child_process').execSync;
 const readFileSync = require('fs').readFileSync;
 
+// Run this command in terminal if not already if your hooks are places in .githooks file
+// git config core.hooksPath .githooks
+
 const FEATURE_PREFIX = 'feature';
 const SNIPPET_PREFIX = 'snippet';
 const BUGFIX_PREFIX = 'bugfix';

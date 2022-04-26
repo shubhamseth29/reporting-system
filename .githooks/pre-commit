@@ -1,6 +1,9 @@
 #!C:/Program\ Files/nodejs/node
 const execSync = require('child_process').execSync;
 
+// Run this command in terminal if not already if your hooks are places in .githooks file
+// git config core.hooksPath .githooks
+
 /**
  * Standard erroring function.
  * @param message Error message displayed in logs
